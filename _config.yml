@@ -1,8 +1,9 @@
 # Site wide configuration
 
-title:            Site Title
+title:            糖果盒
 locale:           en_US
 url:              http://juexun.github.io
+url:              http://localhost:4000
 
 
 # Jekyll configuration
@@ -41,11 +42,11 @@ titlecase: true
 
 # Site owner
 owner:
-  name: Your Name
+  name: 糖豆豆
   avatar: bio-photo.jpg
-  bio: "Describe your self."
-  email:
-  disqus-shortname:
+  bio: "专注于 虚拟化, 分布式存储, IaaS"
+  email: 1293410@qq.com
+  disqus-shortname: juexun
   twitter: #username
   facebook: #username
   google:
