@@ -6,7 +6,7 @@ modified:
 excerpt:
 category: dfs
 subcategory: 所有分类
-tags: [Ceph, Gluster]
+tags: [Ceph, Gluster, GFS2, iSCSI]
 image:
   feature: sample-image-3.jpg
   credit: WeGraphics
