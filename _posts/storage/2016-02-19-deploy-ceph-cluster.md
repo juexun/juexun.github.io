@@ -2,7 +2,7 @@
 layout: post
 title: 部署 Ceph 集群
 modified:
-categories: dfs
+categories: storage
 excerpt: "Ceph基本概念及集群部署流程"
 tags: [Ceph]
 image:

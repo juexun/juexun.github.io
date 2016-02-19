@@ -2,13 +2,15 @@
 layout: post
 title: 部署 Ceph S3 网关
 modified:
-categories: dfs
+categories: storage
 excerpt: "基于Ceph集群部署S3网关流程"
 tags: [Ceph]
 image:
   feature:
 date: 2016-02-19T12:24:06+08:00
 ---
+
+{% include _toc.html %}
 
 ## 0. 前言
 
