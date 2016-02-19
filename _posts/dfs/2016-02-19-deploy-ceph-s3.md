@@ -94,49 +94,16 @@ ServerName {fgdn}
 
 LoadModule rewrite_module modules/mod_rewrite.so
 LoadModule fastcgi_module modules/mod_fastcgi.so
-
 ~~~
 
-**注:** fgdn为主机的FQDN，通过以下命令获取
-
-~~~ 
+**注:** fgdn为主机的FQDN，通过以下命令获取: **hostname -f**
 {: .notice}
-    
-  * 配置ServerName
-    
-    ``` 
-    ServerName {fgdn}
-    ```
-    
-    fgdn为主机的FQDN，通过以下命令获取
-    
-    ``` bash
-    $ hostname -f
-    ```
-    
-  * 加载Rewrite模块
-    
-    ``` 
-    LoadModule rewrite_module modules/mod_rewrite.so
-    ```
-    
-  * 保存配置
-  
-* 配置FastCGI
-  
-  * 加载FastCGI模块
-    
-    ``` 
-    LoadModule fastcgi_module modules/mod_fastcgi.so
-    ```
   
 * 重启Apache服务
   
-  ``` bash
-  $ sudo /etc/init.d/httpd restart
-  ```
-  
-  ​
+~~~ bash
+$ sudo /etc/init.d/httpd restart
+~~~
 
 ## 3. 配置SSL
 
@@ -150,15 +117,15 @@ LoadModule fastcgi_module modules/mod_fastcgi.so
 
 * 安装对象网关服务
   
-  ``` bash
-  $ sudo yum install ceph-radosgw ceph
-  ```
+~~~ bash
+$ sudo yum install ceph-radosgw ceph
+~~~
   
 * 安装对象网关代理
   
-  ``` bash
-  $ sudo yum install radosgw-agent
-  ```
+~~~ bash
+$ sudo yum install radosgw-agent
+~~~
 
 ## 6. 配置Ceph对象网关
 
@@ -168,24 +135,24 @@ LoadModule fastcgi_module modules/mod_fastcgi.so
 
 * 生成keyring
   
-  ``` bash
-  $ sudo ceph-authtool --create-keyring /etc/ceph/keyring.radosgw.gateway
-  $ sudo chmod +r /etc/ceph/keyring.radosgw.gateway
-  ```
+~~~ bash
+$ sudo ceph-authtool --create-keyring /etc/ceph/keyring.radosgw.gateway
+$ sudo chmod +r /etc/ceph/keyring.radosgw.gateway
+~~~
 
 
 * 生成key
   
-  ``` bash
-  $ sudo ceph-authtool /etc/ceph/keyring.radosgw.gateway -n client.radosgw.gateway --gen-key
-  $ sudo ceph-authtool -n client.radosgw.gateway --cap osd 'allow rwx' --cap mon 'allow rw' /etc/ceph/keyring.radosgw.gateway
-  ```
+~~~ bash
+$ sudo ceph-authtool /etc/ceph/keyring.radosgw.gateway -n client.radosgw.gateway --gen-key
+$ sudo ceph-authtool -n client.radosgw.gateway --cap osd 'allow rwx' --cap mon 'allow rw' /etc/ceph/keyring.radosgw.gateway
+~~~
   
 * 添加keyring项
   
-  ``` bash
-  $ sudo ceph -k /etc/ceph/ceph.client.admin.keyring auth add client.radosgw.gateway -i /etc/ceph/keyring.radosgw.gateway
-  ```
+~~~ bash
+$ sudo ceph -k /etc/ceph/ceph.client.admin.keyring auth add client.radosgw.gateway -i /etc/ceph/keyring.radosgw.gateway
+~~~
 
 
 * 如果对象网关和ceph服务器不是同一台机器，需要拷贝keyring文件到对象网关服务器上
@@ -212,196 +179,196 @@ LoadModule fastcgi_module modules/mod_fastcgi.so
 
 * 在ceph.conf中加入如下内容
   
-  ``` 
-  [client.radosgw.gateway]
-          host = {Ceph对象网关主机名，注：不是FQDN}
-          keyring = /etc/ceph/keyring.radosgw.gateway
-          rgw socket path = /tmp/radosgw.sock
-          log file = /var/log/ceph/radosgw.log
-  ```
+~~~ text
+[client.radosgw.gateway]
+      host = {Ceph对象网关主机名，注：不是FQDN}
+      keyring = /etc/ceph/keyring.radosgw.gateway
+      rgw socket path = /tmp/radosgw.sock
+      log file = /var/log/ceph/radosgw.log
+~~~
   
 * 推送配置到集群里的其他服务器
   
-  ``` bash
-  $ ceph-deploy config push {host-name [host-name]...}
-  ```
+~~~ bash
+$ ceph-deploy config push {host-name [host-name]...}
+~~~
 
 ### 7.1 创建数据目录
 
 命令格式如下：
 
-``` bash
+~~~ bash
 $ sudo mkdir -p /var/lib/ceph/radosgw/{$cluster}-{$id}
-```
+~~~
 
 根据以上配置文件定义，实际执行的命令为：
 
-``` bash
+~~~ bash
 $ sudo mkdir -p /var/lib/ceph/radosgw/ceph-radosgw.gateway
-```
+~~~
 
 设置日志文件权限
 
-``` bash
+~~~ bash
 $ sudo /etc/init.d/ceph-radosgw start
 $ sudo chown apache:apache /var/log/radosgw/client.radosgw.gateway.log
 (这个文件在第一次radosgw启动过之后才会创建)
 $ sudo /etc/init.d/ceph-radosgw restart
-```
+~~~
 
 ### 7.2 创建网关配置
 
 * 新增/etc/httpd/conf.d/rgw.conf文件，内容如下：
   
-  ``` 
-  FastCgiExternalServer /var/www/s3gw.fcgi -socket /tmp/radosgw.sock
-  
-  <VirtualHost *:80>
-    ServerName rgw.example1.com
-    ServerAlias rgw
-    ServerAdmin webmaster@example1.com
-    DocumentRoot /var/www
-  
-    RewriteEngine On
-    RewriteRule ^/([a-zA-Z0-9-_.]*)([/]?.*) /s3gw.fcgi?page=$1&params=$2&%{QUERY_STRING} [E=HTTP_AUTHORIZATION:%{HTTP:Authorization
-  },L]
-  
-    <IfModule mod_fastcgi.c>
-      <Directory /var/www>
-        Options +ExecCGI
-        AllowOverride All
-        SetHandler fastcgi-script
-        Order allow,deny
-        Allow from all
-        AuthBasicAuthoritative Off
-      </Directory>
-    </IfModule>
-  
-    AllowEncodedSlashes On
-    ServerSignature Off
-  </VirtualHost>
-  ```
+~~~ 
+FastCgiExternalServer /var/www/s3gw.fcgi -socket /tmp/radosgw.sock
+
+<VirtualHost *:80>
+ServerName rgw.example1.com
+ServerAlias rgw
+ServerAdmin webmaster@example1.com
+DocumentRoot /var/www
+
+RewriteEngine On
+RewriteRule ^/([a-zA-Z0-9-_.]*)([/]?.*) /s3gw.fcgi?page=$1&params=$2&%{QUERY_STRING} [E=HTTP_AUTHORIZATION:%{HTTP:Authorization
+},L]
+
+<IfModule mod_fastcgi.c>
+  <Directory /var/www>
+    Options +ExecCGI
+    AllowOverride All
+    SetHandler fastcgi-script
+    Order allow,deny
+    Allow from all
+    AuthBasicAuthoritative Off
+  </Directory>
+</IfModule>
+
+AllowEncodedSlashes On
+ServerSignature Off
+</VirtualHost>
+~~~
 
 
 * 在CentOS及同类平台下，关闭FastCgiWrapper选项
   
-  ``` bash
-  $ sudo vim /etc/httpd/conf.d/fastcgi.conf
-  ```
+~~~ bash
+$ sudo vim /etc/httpd/conf.d/fastcgi.conf
+~~~
   
-  将FastCgiWrapper设置为Off
+将FastCgiWrapper设置为Off
 
 ## 8. 重启服务
 
-``` bash
+~~~ bash
 $ sudo service ceph restart
 $ sudo service ceph-radosgw restart
 $ sudo service httpd restart
-```
+~~~
 
 ## 9. 使用网关
 
 * 创建用户用于S3访问
   
-  ``` bash
-  $ sudo radosgw-admin user create --uid="testuser" --display-name="First User"
-  {"user_id": "testuser",
-  "display_name": "First User",
-  "email": "",
-  "suspended": 0,
-  "max_buckets": 1000,
-  "auid": 0,
-  "subusers": [],
-  "keys": [
-  { "user": "testuser",
-  "access_key": "I0PJDPCIYZ665MW88W9R",
-  "secret_key": "dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA"}],
-  "swift_keys": [],
-  "caps": [],
-  "op_mask": "read, write, delete",
-  "default_placement": "",
-  "placement_tags": [],
-  "bucket_quota": { "enabled": false,
-  "max_size_kb": -1,
-  "max_objects": -1},
-  "user_quota": { "enabled": false,
-  "max_size_kb": -1,
-  "max_objects": -1},
-  "temp_url_keys": []}
-  ```
+~~~ bash
+$ sudo radosgw-admin user create --uid="testuser" --display-name="First User"
+{"user_id": "testuser",
+"display_name": "First User",
+"email": "",
+"suspended": 0,
+"max_buckets": 1000,
+"auid": 0,
+"subusers": [],
+"keys": [
+{ "user": "testuser",
+"access_key": "I0PJDPCIYZ665MW88W9R",
+"secret_key": "dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA"}],
+"swift_keys": [],
+"caps": [],
+"op_mask": "read, write, delete",
+"default_placement": "",
+"placement_tags": [],
+"bucket_quota": { "enabled": false,
+"max_size_kb": -1,
+"max_objects": -1},
+"user_quota": { "enabled": false,
+"max_size_kb": -1,
+"max_objects": -1},
+"temp_url_keys": []}
+~~~
 
 
 * 创建SWIFT用户
   
   * 创建用户
     
-    ``` bash
-    $ sudo radosgw-admin subuser create --uid=testuser --subuser=testuser:swift --access=full
-    { "user_id": "testuser",
-    "display_name": "First User",
-    "email": "",
-    "suspended": 0,
-    "max_buckets": 1000,
-    "auid": 0,
-    "subusers": [
-    { "id": "testuser:swift",
-    "permissions": "full-control"}],
-    "keys": [
-    { "user": "testuser:swift",
-    "access_key": "3Y1LNW4Q6X0Y53A52DET",
-    "secret_key": ""},
-    { "user": "testuser",
-    "access_key": "I0PJDPCIYZ665MW88W9R",
-    "secret_key": "dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA"}],
-    "swift_keys": [],
-    "caps": [],
-    "op_mask": "read, write, delete",
-    "default_placement": "",
-    "placement_tags": [],
-    "bucket_quota": { "enabled": false,
-    "max_size_kb": -1,
-    "max_objects": -1},
-    "user_quota": { "enabled": false,
-    "max_size_kb": -1,
-    "max_objects": -1},
-    "temp_url_keys": []}
-    ```
+~~~ bash
+$ sudo radosgw-admin subuser create --uid=testuser --subuser=testuser:swift --access=full
+{ "user_id": "testuser",
+"display_name": "First User",
+"email": "",
+"suspended": 0,
+"max_buckets": 1000,
+"auid": 0,
+"subusers": [
+{ "id": "testuser:swift",
+"permissions": "full-control"}],
+"keys": [
+{ "user": "testuser:swift",
+"access_key": "3Y1LNW4Q6X0Y53A52DET",
+"secret_key": ""},
+{ "user": "testuser",
+"access_key": "I0PJDPCIYZ665MW88W9R",
+"secret_key": "dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA"}],
+"swift_keys": [],
+"caps": [],
+"op_mask": "read, write, delete",
+"default_placement": "",
+"placement_tags": [],
+"bucket_quota": { "enabled": false,
+"max_size_kb": -1,
+"max_objects": -1},
+"user_quota": { "enabled": false,
+"max_size_kb": -1,
+"max_objects": -1},
+"temp_url_keys": []}
+~~~
     
   * 创建secret key
     
-    ``` bash
-    $ sudo radosgw-admin key create --subuser=testuser:swift --key-type=swift --gen-secret
-    { "user_id": "testuser",
-    "display_name": "First User",
-    "email": "",
-    "suspended": 0,
-    "max_buckets": 1000,
-    "auid": 0,
-    "subusers": [
-    { "id": "testuser:swift",
-    "permissions": "full-control"}],
-    "keys": [
-    { "user": "testuser:swift",
-    "access_key": "3Y1LNW4Q6X0Y53A52DET",
-    "secret_key": ""},
-    { "user": "testuser",
-    "access_key": "I0PJDPCIYZ665MW88W9R",
-    "secret_key": "dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA"}],
-    "swift_keys": [
-    { "user": "testuser:swift",
-    "secret_key": "244+fz2gSqoHwR3lYtSbIyomyPHf3i7rgSJrF\/IA"}],
-    "caps": [],
-    "op_mask": "read, write, delete",
-    "default_placement": "",
-    "placement_tags": [],
-    "bucket_quota": { "enabled": false,
-    "max_size_kb": -1,
-    "max_objects": -1},
-    "user_quota": { "enabled": false,
-    "max_size_kb": -1,
-    "max_objects": -1},
-    "temp_url_keys": []}
-    ```
+~~~ bash
+$ sudo radosgw-admin key create --subuser=testuser:swift --key-type=swift --gen-secret
+{ "user_id": "testuser",
+"display_name": "First User",
+"email": "",
+"suspended": 0,
+"max_buckets": 1000,
+"auid": 0,
+"subusers": [
+{ "id": "testuser:swift",
+"permissions": "full-control"}],
+"keys": [
+{ "user": "testuser:swift",
+"access_key": "3Y1LNW4Q6X0Y53A52DET",
+"secret_key": ""},
+{ "user": "testuser",
+"access_key": "I0PJDPCIYZ665MW88W9R",
+"secret_key": "dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA"}],
+"swift_keys": [
+{ "user": "testuser:swift",
+"secret_key": "244+fz2gSqoHwR3lYtSbIyomyPHf3i7rgSJrF\/IA"}],
+"caps": [],
+"op_mask": "read, write, delete",
+"default_placement": "",
+"placement_tags": [],
+"bucket_quota": { "enabled": false,
+"max_size_kb": -1,
+"max_objects": -1},
+"user_quota": { "enabled": false,
+"max_size_kb": -1,
+"max_objects": -1},
+"temp_url_keys": []}
+~~~
 
 
 * 测试S3
@@ -410,32 +377,32 @@ $ sudo service httpd restart
     
   * 编辑s3test.py测试代码，内容如下
     
-    ``` python
-    import boto
-    import boto.s3.connection
-    access_key = 'I0PJDPCIYZ665MW88W9R'
-    secret_key = 'dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA'
-    conn = boto.connect_s3(
-    aws_access_key_id = access_key,
-    aws_secret_access_key = secret_key,
-    host = '{对象网关主机名}',
-    is_secure=False,
-    calling_format = boto.s3.connection.OrdinaryCallingFormat(),
-    )
-    bucket = conn.create_bucket('my-new-bucket')
-    for bucket in conn.get_all_buckets():
-            print "{name}\t{created}".format(
-                    name = bucket.name,
-                    created = bucket.creation_date,
-    )
-    ```
+~~~ python
+import boto
+import boto.s3.connection
+access_key = 'I0PJDPCIYZ665MW88W9R'
+secret_key = 'dxaXZ8U90SXydYzyS5ivamEP20hkLSUViiaR+ZDA'
+conn = boto.connect_s3(
+aws_access_key_id = access_key,
+aws_secret_access_key = secret_key,
+host = '{对象网关主机名}',
+is_secure=False,
+calling_format = boto.s3.connection.OrdinaryCallingFormat(),
+)
+bucket = conn.create_bucket('my-new-bucket')
+for bucket in conn.get_all_buckets():
+        print "{name}\t{created}".format(
+                name = bucket.name,
+                created = bucket.creation_date,
+)
+~~~
     
   * 执行测试脚本
     
-    ``` bash
-    $ python s3test.py
-    my-new-bucket 2015-02-16T17:09:10.000Z
-    ```
+~~~ bash
+$ python s3test.py
+my-new-bucket 2015-02-16T17:09:10.000Z
+~~~
     
     ​
 
