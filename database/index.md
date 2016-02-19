@@ -3,7 +3,8 @@ layout: category-index
 title: 
 date: 2016-02-18T22:44:54+08:00
 modified:
-excerpt:
+excerpt: 
+category: database
 subcategory: 所有分类
 tags: [MariaDB]
 image:
@@ -11,4 +12,5 @@ image:
   credit: WeGraphics
   creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
 ---
+
 

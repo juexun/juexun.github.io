@@ -10,6 +10,8 @@ image:
 date: 2016-02-18T17:32:55+08:00
 ---
 
+{% include _toc.html %}
+
 ## 现象
 
 Windows 使用DHCP方式获取IP地址失败，系统自动设置了一个169.254.xx.xx的IP，导致无法上网。
@@ -42,5 +44,5 @@ Windows 使用DHCP方式获取IP地址失败，系统自动设置了一个169.25
     * 将IPAutoconfigurationEnabled赋值为0 
     
     
-{% include _toc.html %}
+
 
