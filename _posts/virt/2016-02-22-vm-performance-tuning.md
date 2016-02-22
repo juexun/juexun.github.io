@@ -29,7 +29,7 @@ writeback: 模式速度最快,但是可能有丢数据的风险
 <source network=<网桥名称> />
 <model type='virtio'/>
 <driver name='vhost' queues='N'/>
-<!-- N:1 - 8 最多支持8个队列 --!>
+<!-- N:1 - 8 最多支持8个队列 -->
 </interface>
 ~~~
 
