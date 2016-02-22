@@ -10,6 +10,8 @@ image:
 date: 2016-02-19T23:15:07+08:00
 ---
 
+{% include _toc.html %}
+
 ## 0. 安装RabbitMQ
 
 ### 0.0 使用EPEL源安装
@@ -56,14 +58,19 @@ $ sudo rabbitmqctl status
 
 * 服务端口
 
-| 端口号        | 功能                             |
-| :------------ | :------------------------------- |
+|---
+| 端口号        | 功能                            |
+|:-------------|:--------------------------------|
 | 4369         |                                 |
+|---
 | 5672         | AMQP 0-9-1 without TLS          |
+|---
 | 5671         | AMQP 0-9-1 with TLS             |
 | 15672        | if management plugin is enabled |
 | 61613, 61614 | if STOMP is enabled             |
 | 1883, 8883   | if MQTT is enabled              |
+|---
+{: rules="groups"}
 
 ## 2. 系统配置
 
