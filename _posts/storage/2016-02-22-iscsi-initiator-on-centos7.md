@@ -29,7 +29,7 @@ InitiatorName=<iqn........>
 
 * 配置用户名和密码
 
-** 注: ** 如果对安全没有特别要求,这一步可跳过
+**注:** 如果对安全没有特别要求,这一步可跳过
 {: .notice}
 
 ~~~ bash
@@ -91,5 +91,19 @@ $ sudo mkfs.xfs -i size=1024 -s size=4096 /dev/sdb1
 
 ~~~ bash
 $ sudo mount /dev/sdb1 /mnt
+~~~
+
+## 注销Target
+
+* 卸载目录
+
+~~~ bash
+$ sudo umount /mnt
+~~~
+
+* 注销iSCSI 会话
+
+~~~ bash
+$ sudo iscsiadm -m node -u
 ~~~
 
