@@ -24,7 +24,7 @@ MariaDB是MySQL的一个分支，选择MariaDB的一个最初的动机是：
 配置Galera集群建议至少用3个节点（如果只有两个节点，需要添加仲裁节点，本文没有相关说明）。
 
 | 操作系统       | IP         | 主机名     | 集群名称     |
-| :--------- | :------------:| :---------: | -----------: |
+| :--------- | :------------| :--------- | :----------- |
 | CentOS 6.6 | 192.168.3.100 | dbserver0 | vmmscluster |
 | CentOS 6.6 | 192.168.3.101 | dbserver1 | vmmscluster |
 | CentOS 6.6 | 192.168.3.102 | dbserver2 | vmmscluster |
@@ -152,7 +152,7 @@ $ mysql -u root -p -e "show status like 'wsrep%'"
   关注几个关键的参数：
   
   | 参数       | 状态         | 功能   |
-  | :---------| :------     :| -----------: |
+  | :---------| :------:| :----------- |
   | wsrep_connected | on | 链接已开启 |
   | wsrep_local_index | 1 | 在集群中的索引值 |
   | wsrep_cluster_size | 3 | 集群中节点的数量 |

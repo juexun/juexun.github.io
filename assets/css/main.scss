@@ -27,3 +27,22 @@ sitemap: false
 @import "vendor/magnific-popup/magnific-popup";
 //@import "vendor/google/fonts";
 @import "print";
+
+table {
+  border: 1px solid #ddd;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  padding-top: 11px;
+  padding-bottom: 11px;
+  background-color: #4CAF50;
+  color: white;
+}

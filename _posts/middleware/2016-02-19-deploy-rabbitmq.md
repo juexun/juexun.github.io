@@ -70,7 +70,6 @@ $ sudo rabbitmqctl status
 | 61613, 61614 | if STOMP is enabled             |
 | 1883, 8883   | if MQTT is enabled              |
 |---
-{: rules="groups"}
 
 ## 2. 系统配置
 
