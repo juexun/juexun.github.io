@@ -38,8 +38,6 @@ $ sudo sed -i 's/#LIBVIRTD_ARGS="--listen"/LIBVIRTD_ARGS="--listen"/g' /etc/sysc
 
 ## 1. libvirt-guests 服务
 
-[相关文档](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Virtualization_Administration_Guide/sub-sect-Shutting_down_rebooting_and_force_shutdown_of_a_guest_virtual_machine-Manipulating_the_libvirt_guests_configuration_settings.html)
-
 ### 0.0 配置文件
 
 - /etc/sysconfig/libvirt-guests
@@ -61,3 +59,7 @@ $ sudo sed -i 's/#LIBVIRTD_ARGS="--listen"/LIBVIRTD_ARGS="--listen"/g' /etc/sysc
 ~~~ bash
 $ sudo systemctl start libvirt-guests
 ~~~
+
+## 参考文档
+
+* [libvirt-guests 配置官方文档](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Virtualization_Administration_Guide/sub-sect-Shutting_down_rebooting_and_force_shutdown_of_a_guest_virtual_machine-Manipulating_the_libvirt_guests_configuration_settings.html)
