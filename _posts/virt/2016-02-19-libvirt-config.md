@@ -2,6 +2,7 @@
 layout: post
 title: Libvirt 配置
 modified:
+comments: true
 categories: virt
 excerpt: "Libvirtd 服务可以开启远程连接支持, 允许virsh等客户端通过TCP方式监控虚拟机"
 tags: [Libvirt]

@@ -5,6 +5,7 @@ modified:
 categories: coding
 excerpt: "国内各类软件镜像源，例如Docker，npm, brew等"
 tags: [其它]
+comments: true
 image:
   feature:
 date: 2016-02-19T23:02:04+08:00

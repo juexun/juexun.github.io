@@ -5,6 +5,7 @@ modified:
 categories: storage
 excerpt: "Ceph基本概念及集群部署流程"
 tags: [Ceph]
+comments: true
 image:
   feature:
 date: 2016-02-19T11:41:41+08:00

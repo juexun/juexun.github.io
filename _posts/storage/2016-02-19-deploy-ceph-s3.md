@@ -5,6 +5,7 @@ modified:
 categories: storage
 excerpt: "基于Ceph集群部署S3网关流程"
 tags: [Ceph]
+comments: true
 image:
   feature:
 date: 2016-02-19T12:24:06+08:00

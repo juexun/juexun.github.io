@@ -5,6 +5,7 @@ modified:
 categories: middleware
 excerpt: "基于CentOS 6.x的RabbitMQ服务的安装和配置"
 tags: [RabbitMQ]
+comments: true
 image:
   feature:
 date: 2016-02-19T23:15:07+08:00

@@ -5,6 +5,7 @@ modified:
 categories: coding
 excerpt: "Virtualenv是一个类似沙盒的Python库，用于配置独立的Python运行环境。"
 tags: [Python]
+comments: true
 image:
   feature:
 date: 2016-02-19T22:57:17+08:00

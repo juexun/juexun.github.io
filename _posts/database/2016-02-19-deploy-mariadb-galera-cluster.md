@@ -5,6 +5,7 @@ modified:
 categories: database
 excerpt: "基于CentOS 6.x/7.x 部署 MariaDB Galera Cluster"
 tags: [MariaDB]
+comments: true
 image:
   feature:
 date: 2016-02-19T09:56:52+08:00

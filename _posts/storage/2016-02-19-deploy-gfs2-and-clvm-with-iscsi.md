@@ -5,6 +5,7 @@ modified:
 categories: storage
 excerpt: "基于iSCSI存储,部署GFS2集群文件系统"
 tags: [GFS2]
+comments: true
 image:
   feature:
 date: 2016-02-19T21:33:21+08:00

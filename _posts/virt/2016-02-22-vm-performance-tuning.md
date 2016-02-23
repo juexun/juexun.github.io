@@ -2,6 +2,7 @@
 layout: post
 title: 虚拟机优化性能
 modified:
+comments: true
 categories: virt
 excerpt: "虚拟机各方面性能优化相关的配置"
 tags: [KVM]

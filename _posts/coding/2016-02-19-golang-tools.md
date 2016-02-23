@@ -5,6 +5,7 @@ modified:
 categories: coding
 excerpt: "Golang开发资源"
 tags: [Go]
+comments: true
 image:
   feature:
 date: 2016-02-19T23:07:08+08:00

@@ -5,6 +5,7 @@ modified:
 categories: network
 excerpt: "开启自动地址设置时,如果DHCP获取地址失败,系统会自动设置169.254.xx.xx."
 tags: [DHCP, Windows]
+comments: true
 image:
   feature:
 date: 2016-02-18T17:32:55+08:00

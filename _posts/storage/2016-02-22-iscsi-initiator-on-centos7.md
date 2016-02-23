@@ -5,6 +5,7 @@ modified:
 categories: storage
 excerpt: "在CentOS7上部署iSCSI客户端,及其它常规操作"
 tags: [iSCSI]
+comments: true
 image:
   feature:
 date: 2016-02-22T17:27:36+08:00

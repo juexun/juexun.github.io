@@ -5,6 +5,7 @@ modified:
 categories: iaas
 excerpt: "基于CentOS7的计算节点部署流程"
 tags: [自研]
+comments: true
 image:
   feature:
 date: 2016-02-19T22:31:00+08:00

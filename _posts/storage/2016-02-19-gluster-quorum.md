@@ -5,6 +5,7 @@ modified:
 categories: storage
 excerpt: "Gluster 客户端仲裁和服务端仲裁机制对比"
 tags: [Gluster]
+comments: true
 image:
   feature:
 date: 2016-02-19T21:42:59+08:00

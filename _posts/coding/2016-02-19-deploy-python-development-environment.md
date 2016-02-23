@@ -5,6 +5,7 @@ modified:
 categories: coding
 excerpt: "Python编程相关的软件"
 tags: [Python]
+comments: true
 image:
   feature:
 date: 2016-02-19T22:52:09+08:00
