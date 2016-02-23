@@ -73,7 +73,6 @@ Intel 的X86 CPU通常使用4Kb内存页，当是经过配置，也能够使用�
 $ sudo mount -t hugetlbfs hugetlbfs /dev/hugepages
 (保留一些内存给巨页)
 sysctl vm.nr_hugepages=516
-(给 kvm 传递参数 hugepages)
 ~~~
 
 * 虚拟机相关配置
