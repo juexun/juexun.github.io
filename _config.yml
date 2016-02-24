@@ -2,8 +2,8 @@
 
 title:            糖果盒
 locale:           en_US
-url:              http://localhost:4000
-#url:              //juexun.github.io
+#url:              http://localhost:4000
+url:              //juexun.github.io
 
 
 # Jekyll configuration
@@ -44,7 +44,7 @@ titlecase: true
 owner:
   name: 糖豆豆
   avatar: bio-photo.jpg
-  bio: "专注于 虚拟化, 分布式存储, IaaS"
+  bio: "专注于虚拟化, 分布式存储, IaaS"
   email: 1293410@qq.com
   disqus-shortname: juexun
   twitter: #username
