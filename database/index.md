@@ -8,9 +8,7 @@ category: database
 subcategory: 所有分类
 tags: [MariaDB]
 image:
-  feature: sample-image-2.jpg
-  credit: WeGraphics
-  creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
+  feature: 
 ---
 
 

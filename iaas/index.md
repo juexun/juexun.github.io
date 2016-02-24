@@ -8,8 +8,6 @@ category: iaas
 subcategory: 所有分类
 tags: [CloudStack, Eucalyptus, OpenStack, OpenNebula, ZStack, 自研]
 image:
-  feature: sample-image-4.jpg
-  credit: WeGraphics
-  creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
+  feature: 
 ---
 

@@ -8,8 +8,6 @@ subcategory: 网络协议
 tags: [Bridge, DHCP]
 category: network
 image:
-  feature: sample-image-6.jpg
-  credit: WeGraphics
-  creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
+  feature: 
 ---
 
