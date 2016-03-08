@@ -19,6 +19,7 @@ date: 2016-02-19T23:11:40+08:00
 
 - /etc/libvirt/libvirtd.conf
 - /etc/sysconfig/libvirtd
+- /etc/libvirt/qemu.conf
 
 ### 0.1 开启远程访问支持
 
