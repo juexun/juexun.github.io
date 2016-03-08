@@ -36,6 +36,7 @@ $ iostat [ -c ] [ -d ] [ -N ] [ -k | -m ] [ -t ] [ -V ] [ -x ] [ -z ] [ device [
 * count指按照这个时间间隔统计的次数。
 
 常见用法：
+
 * iostat -d -k 1 5         查看磁盘吞吐量等信息。
 * iostat -d -x -k 1 5     查看磁盘使用率、响应时间等信息
 * iostat –x 1 5            查看cpu信息。
