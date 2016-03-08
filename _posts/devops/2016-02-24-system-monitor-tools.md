@@ -21,6 +21,8 @@ date: 2016-02-24T15:56:21+08:00
 
 ### iostat
 
+#### 命令参数
+
 ~~~ bash
 $ iostat [ -c ] [ -d ] [ -N ] [ -k | -m ] [ -t ] [ -V ] [ -x ] [ -z ] [ device [...] | ALL ]
 [ -p [ device [,...] | ALL ] ] [ interval [ count ] ]
@@ -35,7 +37,7 @@ $ iostat [ -c ] [ -d ] [ -N ] [ -k | -m ] [ -t ] [ -V ] [ -x ] [ -z ] [ device [
 * interval指每次统计间隔的时间；
 * count指按照这个时间间隔统计的次数。
 
-常见用法：
+#### 常见用法：
 
 * iostat -d -k 1 5         查看磁盘吞吐量等信息。
 * iostat -d -x -k 1 5     查看磁盘使用率、响应时间等信息
