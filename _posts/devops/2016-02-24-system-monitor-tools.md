@@ -36,18 +36,18 @@ $ iostat [ -c ] [ -d ] [ -N ] [ -k | -m ] [ -t ] [ -V ] [ -x ] [ -z ] [ device [
 * count指按照这个时间间隔统计的次数。
 
 常见用法：
-iostat -d -k 1 5         查看磁盘吞吐量等信息。
-iostat -d -x -k 1 5     查看磁盘使用率、响应时间等信息
-iostat –x 1 5            查看cpu信息。
- 
-iostat -x 1（-x：显示扩展信息）
-cpu：
-%user：CPU处在用户模式下的时间百分比。
-%nice：CPU处在带NICE值的用户模式下的时间百分比。
-%system：CPU处在系统模式下的时间百分比。
-%iowait：CPU等待输入输出完成时间的百分比。
-%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。
-%idle：CPU空闲时间百分比。
+* iostat -d -k 1 5         查看磁盘吞吐量等信息。
+* iostat -d -x -k 1 5     查看磁盘使用率、响应时间等信息
+* iostat –x 1 5            查看cpu信息。
+* iostat -x 1（-x：显示扩展信息）
+
+#### CPU
+* %user：CPU处在用户模式下的时间百分比。
+* %nice：CPU处在带NICE值的用户模式下的时间百分比。
+* %system：CPU处在系统模式下的时间百分比。
+* %iowait：CPU等待输入输出完成时间的百分比。
+* %steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。
+* %idle：CPU空闲时间百分比。
 
 **注意** 
 如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但
@@ -55,20 +55,21 @@ cpu：
 么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。
 {: .notice}
 
-disk：
-rrqm/s:  每秒进行 merge 的读操作数目。即 rmerge/s
-wrqm/s:  每秒进行 merge 的写操作数目。即 wmerge/s
-r/s:  每秒完成的读 I/O 设备次数。即 rio/s
-w/s:  每秒完成的写 I/O 设备次数。即 wio/s
-rsec/s:  每秒读扇区数。即 rsect/s
-wsec/s:  每秒写扇区数。即 wsect/s
-rkB/s:  每秒读K字节数。是 rsect/s 的一半，因为每扇区大小为512字节。
-wkB/s:  每秒写K字节数。是 wsect/s 的一半。
-avgrq-sz:  平均每次设备I/O操作的数据大小 (扇区)。
-avgqu-sz:  平均I/O队列长度。
-await:  平均每次设备I/O操作的等待时间 (毫秒)。
-svctm: 平均每次设备I/O操作的服务时间 (毫秒)。
-%util:  一秒中有百分之多少的时间用于 I/O 操作，即被io消耗的cpu百分比
+#### 磁盘
+
+* rrqm/s:  每秒进行 merge 的读操作数目。即 rmerge/s
+* wrqm/s:  每秒进行 merge 的写操作数目。即 wmerge/s
+* r/s:  每秒完成的读 I/O 设备次数。即 rio/s
+* w/s:  每秒完成的写 I/O 设备次数。即 wio/s
+* rsec/s:  每秒读扇区数。即 rsect/s
+* wsec/s:  每秒写扇区数。即 wsect/s
+* rkB/s:  每秒读K字节数。是 rsect/s 的一半，因为每扇区大小为512字节。
+* wkB/s:  每秒写K字节数。是 wsect/s 的一半。
+* avgrq-sz:  平均每次设备I/O操作的数据大小 (扇区)。
+* avgqu-sz:  平均I/O队列长度。
+* await:  平均每次设备I/O操作的等待时间 (毫秒)。
+* svctm: 平均每次设备I/O操作的服务时间 (毫秒)。
+* %util:  一秒中有百分之多少的时间用于 I/O 操作，即被io消耗的cpu百分比
 
 **注意** 
 如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。
