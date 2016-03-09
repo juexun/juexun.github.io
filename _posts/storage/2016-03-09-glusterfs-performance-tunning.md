@@ -3,8 +3,9 @@ layout: post
 title: GlusterFS 配置选项
 modified:
 categories: storage
-excerpt:
-tags: []
+excerpt: "GlusterFS选项说明及oVirt对GlusterFS的优化配置"
+tags: [Gluster]
+comments: true
 image:
   feature:
 date: 2016-03-09T21:33:44+08:00
