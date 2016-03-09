@@ -112,7 +112,6 @@ $ gluster volume set help
 | performance.read-after-open | no | read is sent only after actual open happens and real fd is obtained, instead of doing on anonymous fd (similar to write)
 | performance.read-ahead-page-count | 4 | Number of pages that will be pre-fetched
 | performance.md-cache-timeout | 1 | Time period after which cache has to be refreshed
-
 | performance.write-behind | on | enable/disable write-behind translator in the volume.
 | performance.read-ahead | on | enable/disable read-ahead translator in the volume.
 | performance.readdir-ahead | off | enable/disable readdir-ahead translator in the volume.
@@ -123,17 +122,15 @@ $ gluster volume set help
 | performance.client-io-threads | off | enable/disable io-threads translator in the client graph of volume.
 | performance.nfs.write-behind | on | enable/disable write-behind translator in the volume
 | performance.force-readdirp | true | Convert all readdir requests to readdirplus to collect stat info on each entry.
-|----
 | features.encryption | off | enable/disable client-side encryption for the volume.
 | encryption.master-key | null | Pathname of regular file which contains master volume key
 | encryption.data-key-size | 256 | Data key size (bits)
 | encryption.block-size | 4096 | Atom size (bits)
-|----
 | nfs.enable-ino32 | no | For nfs clients or apps that do not support 64-bit inode numbers, use this option to make NFS return 32-bit inode numbers instead. Disabled by default, so NFS returns 64-bit inode numbers.
 | nfs.mem-factor | 15 | Use this option to make NFS be faster on systems by using more memory. This option specifies a multiple that determines the total amount of memory used. Default value is 15. Increase to use more memory in order to improve performance for certain use cases.Please consult gluster-users list before using this option.
 | nfs.export-dirs | on | By default, all subvolumes of nfs are exported as individual exports. There are cases where a subdirectory or subdirectories in the volume need to be exported separately. Enabling this option allows any directory on a volumes to be exported separately.Directory exports are enabled by default.
 | nfs.export-volumes | on | Enable or disable exporting whole volumes, instead if used in conjunction with nfs3.export-dir, can allow setting up only subdirectories as exports. On by default.
-| nfs.addr-namelookup | off | Users have the option of turning on name lookup for incoming client connections using this option. Use this option to turn on name lookups during address-based authentication. Turning this on will enable you to use hostnames in nfs.rpc-auth-* filters. In some setups, the name server can take too long to reply to DNS queries resulting in timeouts of mount requests. By default, name lookup is off
+| nfs.addr-namelookup | off | Users have the option of turning on name lookup for incoming client connections using this option. Use this option to turn on name lookups during address-based authentication. Turning this on will enable you to use hostnames in nfs.rpc-auth-\* filters. In some setups, the name server can take too long to reply to DNS queries resulting in timeouts of mount requests. By default, name lookup is off
 | nfs.dynamic-volumes | off | Internal option set to tell gnfs to use a different scheme for encoding file handles when DVM is being used.
 | nfs.register-with-portmap | on | For systems that need to run multiple nfs servers, only one registration is possible with portmap service. Use this option to turn off portmap registration for Gluster NFS. On by default
 | nfs.outstanding-rpc-limit | 16 | Parameter to throttle the number of incoming RPC requests from a client. 0 means no limit (can potentially run out of memory)
@@ -147,7 +144,7 @@ $ gluster volume set help
 | nfs.trusted-sync | off | All writes and COMMIT requests are treated as async. This implies that no write requests are guaranteed to be on server disks when the write reply is received at the NFS client. Trusted sync includes  trusted-write behaviour. Off by default.
 | nfs.trusted-write | off | On an UNSTABLE write from client, return STABLE flag to force client to not send a COMMIT request. In some environments, combined with a replicated GlusterFS setup, this option can improve write performance. This flag allows user to trust Gluster replication logic to sync data to the disks and recover when required. COMMIT requests if received will be handled in a default manner by fsyncing. STABLE writes are still handled in a sync manner. Off by default.
 | nfs.volume-access | read-write | Type of access desired for this subvolume:  read-only, read-write(default)
-| nfs.export-dir | | By default, all subvolumes of nfs are exported as individual exports. There are cases where a subdirectory or subdirectories in the volume need to be exported separately. This option can also be used in conjunction with nfs3.export-volumes option to restrict exports only to the subdirectories specified through this option. Must be an absolute path. Along with path allowed list of IPs/hostname can be associated with each subdirectory. If provided connection will allowed only from these IPs. By default connections from all IPs are allowed. Format: <dir>[(hostspec[|hostspec|...])][,...]. Where hostspec can be an IP address, hostname or an IP range in CIDR notation. e.g. /foo(192.168.1.0/24|host1|10.1.1.8),/host2. NOTE: Care must be taken while configuring this option as invalid entries and/or unreachable DNS servers can introduce unwanted delay in all the mount calls.
+| nfs.export-dir | | By default, all subvolumes of nfs are exported as individual exports. There are cases where a subdirectory or subdirectories in the volume need to be exported separately. This option can also be used in conjunction with nfs3.export-volumes option to restrict exports only to the subdirectories specified through this option. Must be an absolute path. Along with path allowed list of IPs/hostname can be associated with each subdirectory. If provided connection will allowed only from these IPs. By default connections from all IPs are allowed. Format: <dir>[(hostspec[\|hostspec\|...])][,...]. Where hostspec can be an IP address, hostname or an IP range in CIDR notation. e.g. /foo(192.168.1.0/24\|host1\|10.1.1.8),/host2. NOTE: Care must be taken while configuring this option as invalid entries and/or unreachable DNS servers can introduce unwanted delay in all the mount calls.
 | nfs.disable | false | This option is used to start or stop the NFS server for individual volumes.
 | nfs.nlm | on | This option, if set to 'off', disables NLM server by not registering the service with the portmapper. Set it to 'on' to re-enable it. Default value: 'on'
 | nfs.acl | on | This option is used to control ACL support for NFS.
@@ -162,7 +159,6 @@ $ gluster volume set help
 | nfs.auth-refresh-interval-sec | (null) | Frequency in seconds that the daemon should check for changes in the exports/netgroups file.
 | nfs.auth-cache-ttl-sec | (null) | Sets the TTL of an entry in the auth cache. Value is in seconds.
 | ganesha.enable | off | export volume via NFS-Ganesha
-
 |----
 | network.frame-timeout | 1800 | Time frame after which the (file) operation would be declared as dead, if the server does not respond for a particular (file) operation.
 | network.ping-timeout | 42 | Time duration for which the client waits to check if the server is responsive.
@@ -173,9 +169,7 @@ $ gluster volume set help
 | network.compression.window-size | -15 | Size of the zlib history buffer.
 | network.compression.mem-level | 8 | Memory allocated for internal compression state. 1 uses minimum memory but is slow and reduces compression ratio; memLevel=9 uses maximum memory for optimal speed. The default value is 8.
 | network.compression.min-size | 0 | Data is compressed only when its size exceeds this.
-| network.compression.compression-level | -1 | Compression levels 
-0 : no compression, 1 : best speed, 
-9 : best compression, -1 : default compression 
+| network.compression.compression-level | -1 | Compression levels 0 \: no compression, 1 \: best speed, 9 \: best compression, -1 \: default compression 
 |----
 | features.lock-heal | off | When the connection to client is lost, server cleans up all the locks held by the client. After the connection is restored, the client reacquires (heals) the fcntl locks released by the server.
 | features.grace-timeout | 10 | Specifies the duration for the lock state to be maintained on the client after a network disconnection. Range 10-1800 seconds.
@@ -199,7 +193,6 @@ $ gluster volume set help
 | features.shard-block-size | 4MB | The size unit used to break a file into multiple chunks
 | features.cache-invalidation | off | When "on", sends cache-invalidation notifications.
 | features.cache-invalidation-timeout | 60 | After 'timeout' seconds since the time client accessed any file, cache-invalidation notifications are no longer sent to that client.
-
 |----
 | client.event-threads | 2 | Specifies the number of event threads to execute in parallel. Larger values would help process responses faster, depending on available processing power. Range 1-32 threads.
 | auth.allow | null | Allow a comma separated list of addresses and/or hostnames to connect to the server. Option auth.reject overrides this option. By default, all connections are allowed.
@@ -211,7 +204,7 @@ $ gluster volume set help
 | server.statedump-path | /var/run/gluster | Specifies directory in which gluster should save its statedumps.
 | server.outstanding-rpc-limit | 64 | Parameter to throttle the number of incoming RPC requests from a client. 0 means no limit (can potentially run out of memory)
 | server.manage-gids | off | Resolve groups on the server-side.
-| server.dynamic-auth | on | When 'on' perform dynamic authentication of volume options in order to allow/terminate client transport connection immediately in response to *.allow | *.reject volume set options.
+| server.dynamic-auth | on | When 'on' perform dynamic authentication of volume options in order to allow/terminate client transport connection immediately in response to \*.allow \| \*.reject volume set options.
 | server.gid-timeout | 300 | Timeout in seconds for the cached groups to expire.
 | server.event-threads | 2 | Specifies the number of event threads to execute in parallel. Larger values would help process responses faster, depending on available processing power. Range 1-32 threads.
 |----
@@ -225,12 +218,7 @@ $ gluster volume set help
 | ssl.ec-curve | null | ECDH curve name. Ignored if SSL is not enabled.
 |----
 | storage.linux-aio | off | Support for native Linux AIO
-| storage.batch-fsync-mode | reverse-fsync | Possible values:
-        - syncfs: Perform one syncfs() on behalf oa batchof fsyncs.
-        - syncfs-single-fsync: Perform one syncfs() on behalf of a batch of fsyncs and one fsync() per batch.
-        - syncfs-reverse-fsync: Preform one syncfs() on behalf of a batch of fsyncs and fsync() each file in the batch in reverse order.
- in reverse order.
-        - reverse-fsync: Perform fsync() of each file in the batch in reverse order.
+| storage.batch-fsync-mode | reverse-fsync | Possible values: syncfs: Perform one syncfs() on behalf oa batchof fsyncs. syncfs-single-fsync: Perform one syncfs() on behalf of a batch of fsyncs and one fsync() per batch. syncfs-reverse-fsync: Preform one syncfs() on behalf of a batch of fsyncs and fsync() each file in the batch in reverse order. reverse-fsync: Perform fsync\(\) of each file in the batch in reverse order.
 | storage.batch-fsync-delay-usec | 0 | Num of usecs to wait for aggregating fsync requests
 | storage.owner-uid | -1 | Support for setting uid of brick's owner
 | storage.owner-gid | -1 | Support for setting gid of brick's owner
@@ -238,9 +226,6 @@ $ gluster volume set help
 | storage.health-check-interval | 30 | Interval in seconds for a filesystem health check, set to 0 to disable
 | storage.build-pgfid | off | Enable placeholders for gfid to path conversion
 | storage.bd-aio | off | Support for native Linux AIO
-|=====
-| Foot1   | Foot2   | Foot3
-{: rules="groups"}
 
 
 ## oVirt针对GlusterFS的优化
