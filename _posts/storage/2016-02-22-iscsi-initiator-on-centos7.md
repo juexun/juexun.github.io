@@ -94,6 +94,17 @@ $ sudo mkfs.xfs -i size=1024 -s size=4096 /dev/sdb1
 $ sudo mount /dev/sdb1 /mnt
 ~~~
 
+* 自动挂载
+
+~~~ bash
+$ sudo blkid /dev/sdb1
+/dev/sdb1: UUID="70305792-1c93-4799-a4c3-ba3cc80b34e7" TYPE="xfs"
+
+$ cat /etc/fstab
+(无关内容略)
+UUID=70305792-1c93-4799-a4c3-ba3cc80b34e7 /mnt            xfs     _netdev         0 0
+~~~
+
 ## 注销Target
 
 * 卸载目录
