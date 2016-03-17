@@ -94,10 +94,7 @@ $ sudo iptables -X
   将SELINUX设置为disabled,如下所示
   
 ~~~ bash 
-$ cat /etc/sysconfig/selinux
-(其它略)
-SELINUX=disabled
-SELINUXTYPE=targeted
+$ sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 ~~~
 
 ### 0.4 配置主机名
@@ -135,6 +132,11 @@ $ sudo sed -i 's/#LIBVIRTD_ARGS="--listen"/LIBVIRTD_ARGS="--listen"/g' /etc/sysc
 * /etc/libvirt/qemu.conf
   
   > 关于QEMU的配置,还有很多优化的空间,需要深入的研究
+  
+~~~ bash
+$ sudo sed -i 's/#user = "root"/user = "root"/g' /etc/libvirt/qemu.conf
+$ sudo sed -i 's/#group = "root"/group = "root"/g' /etc/libvirt/qemu.conf
+~~~
 
 ### 1.3 启动libvirtd服务
 
@@ -159,7 +161,11 @@ enabled
 $ sudo systemctl enable libvirtd.service
 ~~~
 
-### 1.4 配置dnsmasq服务
+### 1.4 libvirt-guests服务
+
+详情参考 "[libvirt配置](http://juexun.github.io/virt/libvirt-config/)"
+
+### 1.5 配置dnsmasq服务
 
 libvirtd服务配置的默认虚拟网桥使用dnsmasq作为DHCP服务为虚拟机分配IP,SunrunIaaS中也使用了dnsmasq来分配IP.如果同时使用会引起冲突,所以需要将默认虚拟网桥删除,并关闭dnsmasq服务.
 
@@ -207,7 +213,7 @@ disabled
 $ sudo systemctl disable dnsmasq.service
 ~~~
 
-### 1.5 重启服务器
+### 1.6 重启服务器
 
   为了确保配置有效,完成以上配置后,请务必重启服务器.
 

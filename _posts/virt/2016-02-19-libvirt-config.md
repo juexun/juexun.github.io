@@ -59,6 +59,7 @@ $ sudo sed -i 's/#LIBVIRTD_ARGS="--listen"/LIBVIRTD_ARGS="--listen"/g' /etc/sysc
 ### 0.2 开启libvirt-guests服务
 
 ~~~ bash
+$ sudo systemctl enable libvirt-guests
 $ sudo systemctl start libvirt-guests
 ~~~
 
