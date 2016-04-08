@@ -10,17 +10,20 @@ image:
 date: 2016-04-08T19:13:35+08:00
 ---
 
-## 编写Shell脚本
+### 编写Shell脚本,并保存在定时任务目录下
 
-## 将脚本存储定时任务目录
+~~~ bash
+$ sudo vim /etc/cron.daily/rsync-repo.cron
+(详见脚本内容)
+~~~
 
-## 重启定时任务crond服务
+### 重启定时任务crond服务
 
 ~~~
 $ sudo systemctl restart crond
 ~~~
 
-## 脚本内容
+### 脚本内容
 
 ~~~ bash
 #!/bin/bash
