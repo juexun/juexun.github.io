@@ -23,26 +23,26 @@ $ sudo systemctl restart crond
 ## 脚本内容
 
 ~~~ bash
-\#!/bin/bash
+#!/bin/bash
 
-\# base value
-\# 要同步的源
+# base value
+# 要同步的源
 MIRROR_SITE="rsync://mirrors.yun-idc.com/"
-\# 本地存放目录
+# 本地存放目录
 LOCAL_PATH="/home/backup/repo/"
-\# 需要同步的软件
+# 需要同步的软件
 LOCAL_REPO='centos epel'
-\# 需要同步的版本
+# 需要同步的版本
 LOCAL_VER="7.2.1511 7"
-\# 记录本脚本进程号
+# 记录本脚本进程号
 LOCK_FILE="/var/log/rsyncrepo.pid"
-\# 同步日志文件
+# 同步日志文件
 LogFile=/var/log/rsyncrepo/`date +"%Y-%m-%d"`.log
-\# 如用系统默认rsync工具为空即可。
-\# 如用自己安装的rsync工具直接填写完整路径
+# 如用系统默认rsync工具为空即可。
+# 如用自己安装的rsync工具直接填写完整路径
 RSYNC_PATH=""
  
-\# check update yum server  pid
+# check update yum server  pid
 MY_PID=$$
 if [ -f $LOCK_FILE ]; then
     get_pid=`/bin/cat $LOCK_FILE`
@@ -57,7 +57,7 @@ else
     echo $MY_PID>$LOCK_FILE
 fi
  
-\# check rsync tool
+# check rsync tool
 if [ -z $RSYNC_PATH ]; then
     RSYNC_PATH=`/usr/bin/whereis rsync|awk ' ''{print $2}'`
     if [ -z $RSYNC_PATH ]; then
@@ -66,7 +66,7 @@ if [ -z $RSYNC_PATH ]; then
     fi
 fi
  
-\# sync yum source
+# sync yum source
 echo "rsync start at $(date +"%Y-%m-%d %H:%M:%S")" >$LogFile
 echo "--------------------------------------------------" >>$LogFile
 for REPO in $LOCAL_REPO;
@@ -88,7 +88,7 @@ echo "rsync end at $(date +"%Y-%m-%d %H:%M:%S")" >>$LogFile
 echo "--------------------------------------------------" >>$LogFile 
 done
  
-\# clean lock file
+# clean lock file
 `/bin/rm -rf $LOCK_FILE`
  
 echo 'sync end.'
