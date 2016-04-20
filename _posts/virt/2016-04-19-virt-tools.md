@@ -1,6 +1,6 @@
 ---
 layout: post
-title: uestfish套件
+title: Guestfish套件
 modified:
 categories: virt
 excerpt: "KVM虚拟化相关工具"
