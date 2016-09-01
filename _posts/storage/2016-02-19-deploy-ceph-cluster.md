@@ -332,7 +332,45 @@ $ ceph health
 HEALTH_OK
 ~~~
 
-### 2.2 注意事项
+### 2.2 集群维护
+
+#### 2.2.0 管理节点
+
+
+##### 2.2.0.0 新增
+
+~~~ bash
+(如果这是一个新的节点,没有安装ceph软件, 还需要安装2.0节的内容初始化用户及环境)
+$ ceph install new-admin
+
+$ ceph admin new-admin
+~~~
+
+添加完成后,可能使用ceph相关命令还是会失败,如下:
+
+~~~ bash
+$ ceph -s
+2016-09-01 11:16:46.151396 7fd53a157700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin: (2) No such file or directory
+2016-09-01 11:16:46.151414 7fd53a157700 -1 monclient(hunting): ERROR: missing keyring, cannot use cephx for authentication
+2016-09-01 11:16:46.151417 7fd53a157700  0 librados: client.admin initialization error (2) No such file or directory
+Error connecting to cluster: ObjectNotFound
+~~~
+
+出现此类错误时,按照以下流程逐步定位:
+
+* 检查 /etc/ceph/ceph.client.admin.keyring /etc/ceph/ceph.conf 等文件是否存在且内容无误
+* 检查 /etc/ceph/ceph.client.admin.keyring 的文件权限是否ceph:ceph
+
+##### 2.2.0.1 更新管理配置
+
+当证书或者集群配置发生变化时
+
+~~~ bash
+(更新配置文件,新增时可忽略)
+$ ceph config push new-admin
+~~~~
+
+### 2.3 注意事项
 
 * 关于Ceph源的问题
   
@@ -349,5 +387,7 @@ HEALTH_OK
   
   
 * public_network或cluster_network至少必需配置一项
+
+
 
 
