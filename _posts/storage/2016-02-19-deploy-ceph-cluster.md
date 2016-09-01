@@ -33,6 +33,7 @@ Ceph 最初是一项关于存储系统的 PhD 研究项目，由 Sage Weil 在 U
 * [Openfans的汉化版文档](http://docs.openfans.org/ceph)，相比官方文档，版本会低一点
 * Ceph中国社区录制的[公开课](http://edu.51cto.com/course/course_id-4040.html)，视频教程，比较形象
 * [Ceph中国社区](http://bbs.ceph.org.cn/explore/)
+* [Ceph性能优化总结(v0.94)](http://xiaoquqi.github.io/blog/2015/06/28/ceph-performance-optimization-summary/)
 * 还有一些零碎的资料
 
 根据我的学习经历，强烈推荐以官方文档为主，汉化文档为辅，再结合公开课视频，遇到问题配合上谷歌（查得严就用度娘），基本上搞定安装没多大问题。
@@ -289,29 +290,7 @@ $ ceph-deploy mon create-initial
 {cluster-name}.bootstrap-mds.keyring
 ~~~
 
-#### 2.1.5 添加OSD
-
-* 登录所有osd节点
-  
-~~~ bash
-ssh ceph@osd-node
-$ sudo mkdir /var/lib/osd
-~~~
-  
-* 登录admin节点，准备OSD
-  
-~~~ bash
-ssh ceph@admin
-$ ceph-deploy osd prepare admin:/var/lib/osd node1:/var/lib/osd node2:/var/lib/osd
-~~~
-  
-* 激活OSD
-  
-~~~ 
-$ ceph-deploy osd activate admin:/var/lib/osd node1:/var/lib/osd node2:/var/lib/osd
-~~~
-
-#### 2.1.6 配置ceph CLI
+#### 2.1.5 配置ceph CLI
 
 ~~~ bash
 $ ceph-deploy install admin node1 node2
@@ -325,7 +304,7 @@ $ ceph-deploy install admin node1 node2
 sudo chmod +r /etc/ceph/ceph.client.admin.keyring
 ~~~
 
-#### 2.1.7 查看集群状态
+#### 2.1.6 查看集群状态
 
 ~~~ bash
 $ ceph health
@@ -389,5 +368,58 @@ $ ceph config push new-admin
 * public_network或cluster_network至少必需配置一项
 
 
+## 3. OSD
+
+### 3.0 OSD添加与删除
+
+#### 3.0.0 OSD添加
+
+* 清除磁盘数据
+
+~~~ bash
+$ ceph-deploy disk zap {osd-host}:{disk-name} [{osd-host}:{disk-name} ...]
+~~~
+
+注意以下错误:
+当出现以下信息后, 程序会停止, 重启该服务器后再重新执行就可以继续了.
+
+[ceph-116][DEBUG ] Warning: The kernel is still using the old partition table.
+[ceph-116][DEBUG ] The new table will be used at the next reboot.
+[ceph-116][DEBUG ] GPT data structures destroyed! You may now partition the disk using fdisk or
+[ceph-116][DEBUG ] other utilities.
+[ceph-116][DEBUG ] Creating new GPT entries.
+[ceph-116][DEBUG ] Warning: The kernel is still using the old partition table.
+[ceph-116][DEBUG ] The new table will be used at the next reboot.
+[ceph-116][DEBUG ] The operation has completed successfully.
+
+* 添加OSD
+
+~~~ bash
+$ ceph-deploy osd prepare {host}:{data_disk_name_or_devpath}:{journal_disk_name_or_devpath}
+$ ceph-deploy osd activate {host}:{data_disk_name_or_devpath}:{journal_disk_name_or_devpath}
+~~~
+
+* 默认每个OSD的journal size是5G, 可以通过修改 osd journal size 来配置日志大小
+* 以上两个命令可能会执行失败,例如prepare的过程中,可能会创建data disk 分区失败,但是journal disk分区创建成功
+* 可以多次执行最后成功, 但是要注意参数; 例如, 当日志分区创建成功(假定为sdc1)时, 再次执行时日志分区部分要使用/dev/sdc1而不能使用sdc
+
+#### 3.0.1 OSD删除
+
+* 从各个节点上停止OSD服务
+
+~~~ bash
+(ssh ceph@osd-host)
+$ sudo systemctl stop ceph-osd@{osd-id}
+$ sudo systemctl disable ceph-osd@{osd-id}
+~~~
+
+* 在admin节点上删除osd
+
+~~~ bash
+(ceph-admin node)
+$ ceph osd crush remove osd.{osd-id}
+$ ceph auth del osd.{osd-id}
+$ ceph osd rm {osd-id}
+~~~
 
 
