@@ -185,6 +185,7 @@ Host admin
 ### 2.1 部署集群
 
 开始之前，请使用ceph用户登陆admin节点，以下所有操作都将以ceph用户进行。
+开始之前, 请先阅读文末的注意事项
 
 #### 2.1.0 重置环境
 
@@ -241,6 +242,12 @@ auth_cluster_required = cephx
 auth_service_required = cephx
 auth_client_required = cephx
 filestore_xattr_use_omap = true
+
+$ cat cephdeploy.conf
+[ceph-deploy-global]
+
+[ceph-deploy-install]
+adjust_repos = False
 ~~~
 
 我们加入以下两行：
@@ -330,13 +337,16 @@ HEALTH_OK
 * 关于Ceph源的问题
   
   从国内直接使用Ceph官网源安装节点组件时，时间比较长，会导致安装失败。建议将网络源下载做成本地源，然后修改ceph.repo文件进行安装。
+  同时,安装前在各台服务器上配置好YUM源,并且在cephdeploy.conf中设置adjust_repos为False
+  该选项可以保证在安装过程中不会替换现有的yum源配置,在网络环境不允许的情况下,使用本地源配合该选项,可以简化安装
 
 
 * 软件重置时，如果需要完成重置，请务必删除/var/lib/ceph目录下的文件
   
 * 关于重复安装的问题
   
-  由于刚开始玩Ceph，安装过程难免问题多多，免不了重复安装。为了节省时间，我把Ceph官方源下载到本地，并制作了本地YUM源。每次重新安装之前，必须清除安装环境和配置。另外，ceph-deploy工具每次安装或卸载时，都会先安装或者卸载ceph-release，这个包其实就是生成官方YUM源配置文件。由于我使用的是本地源，所以这个包不需要安装。所以我修改了ceph-deploy，去掉了对ceph-release的安装和卸载操作。
+  由于刚开始玩Ceph，安装过程难免问题多多，免不了重复安装。为了节省时间，我把Ceph官方源下载到本地，并制作了本地YUM源。每次重新安装之前，必须清除安装环境和配置。
+  
   
 * public_network或cluster_network至少必需配置一项
 
